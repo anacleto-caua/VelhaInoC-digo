@@ -1,7 +1,8 @@
 #pragma once
-#include "Individuo.h"
+//#include "Individuo.h"
 #include "Tabuleiro.h"
 #include "RandomAnacleto.h"
+#include "IndividuoStruct.cpp"
 
 class AlgoritmoGenetico
 {
