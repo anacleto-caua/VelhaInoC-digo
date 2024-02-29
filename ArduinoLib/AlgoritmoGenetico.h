@@ -1,8 +1,7 @@
 #pragma once
-//#include "Individuo.h"
 #include "Tabuleiro.h"
-#include "RandomAnacleto.h"
 #include "IndividuoStruct.cpp"
+#include <pRNG.h>
 
 class AlgoritmoGenetico
 {
@@ -21,7 +20,7 @@ public:
 
 	Individuo* individuos;
 
-  RandomAnacleto randomAnacleto;
+  pRNG prng;
 
 	AlgoritmoGenetico(int genes, int numIndividuos,  float removerPercent, float mutacaoPercent);
 
@@ -53,5 +52,8 @@ public:
 
   int getVencedor();
 
+  int8_t randomA(int max);
+
+  int8_t randomA(int min, int max);
 };
 

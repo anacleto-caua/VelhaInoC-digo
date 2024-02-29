@@ -57,6 +57,8 @@ void setup()
     
     pinState = !pinState;
     delay(1000);
+
+    delete &pinState;
   
   }
 

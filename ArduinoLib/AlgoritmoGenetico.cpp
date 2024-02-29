@@ -1,9 +1,9 @@
 #include "AlgoritmoGenetico.h"
 #include <SoftwareSerial.h>
 
+
 AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float removerPercent, float mutacaoPercent)
 {
-  this->randomAnacleto = RandomAnacleto();
 
 	rounds = 0;
 
@@ -15,6 +15,8 @@ AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float remover
   this->tabuleiro = Tabuleiro();
 
 	Individuo* individuos = new Individuo[numIndividuos];
+
+  pRNG prng;
 }
 
 void AlgoritmoGenetico::gerarPopulacaoInicial()
@@ -115,7 +117,7 @@ void AlgoritmoGenetico::cruzarPopulacao()
 	for (int i = numIndividuos - 1 - remocao; i < numIndividuos - 1; i++) {
 		individuos[i] = Individuo::Individuo(individuos[id_pai], individuos[id_mae]);
 	
-		if (randomAnacleto.randomA(100) + 1 < mutacaoPercent) {
+		if (randomA(100) + 1 < mutacaoPercent) {
 			individuos[i].mutacao();
 		}
 
@@ -140,22 +142,16 @@ void AlgoritmoGenetico::iniciarSelecao()
 void AlgoritmoGenetico::selecao()
 {	
   competir();
-  // cout << "Tamanho: " << individuos.size() << endl;
 
   ordenarPopulacao();
-  // cout << "Tamanho: " << individuos.size() << endl;
 
   this->maiorPontuacaoRound = individuos[0].pontuacao;
-  //apresentacao();
 
   limparPontuacaoPopulacao();
-  // cout << "Tamanho: " << individuos.size() << endl;
 
   eliminarPopulacao();
-  // cout << "Tamanho: " << individuos.size() << endl;
 
   cruzarPopulacao();
-  // cout << "Tamanho: " << individuos.size() << endl;
 
   rounds++;
 }
@@ -185,3 +181,24 @@ int (*AlgoritmoGenetico::getLinhaVencedora())[2]{
 int AlgoritmoGenetico::getVencedor(){
   return this->tabuleiro.getVencedor();
 }
+
+int8_t AlgoritmoGenetico::randomA(int max){
+    int randomByte = prng.getRndInt();
+
+    int dif = max;
+
+    int8_t rng = (randomByte % max);
+
+    return rng;
+  }
+
+  int8_t AlgoritmoGenetico::randomA(int min, int max){
+    int randomByte = prng.getRndInt();
+
+    int div = min - 0;
+    int dif = max - div;
+
+    int8_t rng = (randomByte % (dif + 1)) + div;
+
+    return rng;
+  }
