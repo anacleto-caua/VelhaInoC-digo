@@ -71,7 +71,6 @@ void setup()
 
 void loop()
 {
-  Serial.println("inicio loop.");
 
   int (*movimentos)[2];
   int (*linhaVencedora)[2];
@@ -79,12 +78,14 @@ void loop()
   bool piscaVencedorState;
   int delayPiscaMs = 2000; // 2 secs
 
+  Serial.println("inicio loop.");
+
   Serial.println("Inicio do looping de seleção.");
   // Looping de seleção <<DESFUNCIONAL POR FALTA DE MEMÓRIA PARA EXECUÇÃO>>
   while (ag.maiorPontuacaoRound <= ag.pontuacaoMaxima * 0.7) {
 
     ag.selecao();
-    Serial.println("Uma selcao rodada.");
+    Serial.println("Uma selecao rodada.");
 
     // Mostra 3 individuos enfrentando o campeão atual
     for(int i = 1; i <= 3; i++){
