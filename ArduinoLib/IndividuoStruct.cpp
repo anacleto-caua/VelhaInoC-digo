@@ -1,11 +1,12 @@
 #pragma once
 #include <SoftwareSerial.h>
+#include <pRNG.h>
 
 struct Individuo {
   int genes;
 
-  int* dnaX;
-  int* dnaY;
+  int8_t* dnaX;
+  int8_t* dnaY;
 
   int vitorias = 0;
   int derrotas = 0;
@@ -14,7 +15,7 @@ struct Individuo {
 
   pRNG prng;
 
-/*
+
 Individuo() {
 
   pRNG prng;
@@ -26,17 +27,17 @@ Individuo() {
 	this->empates = 0;
 	this->pontuacao = 0;
 
-	this->dnaX = new int[genes];
-	this->dnaY = new int[genes];
+	this->dnaX = new int8_t[genes];
+	this->dnaY = new int8_t[genes];
 
 	for (int i = 0; i < genes; i++) {
 		dnaX[i] = randomGene();
 		dnaY[i] = randomGene();
 	}
 }
-*/
 
-  constructor(int genes) {
+
+  Individuo(int genes) {
     pRNG prng;
     
     this->genes = genes;
@@ -46,8 +47,8 @@ Individuo() {
     this->empates = 0;
     this->pontuacao = 0;
     
-    this->dnaX = new int[genes];
-    this->dnaY = new int[genes];
+    this->dnaX = new int8_t[genes];
+    this->dnaY = new int8_t[genes];
 
     for (int i = 0; i < genes; i++) {
       dnaX[i] = randomGene();
@@ -55,7 +56,7 @@ Individuo() {
     }
   }
 
-  constructor(Individuo pai, Individuo mae) {
+  Individuo(Individuo pai, Individuo mae) {
     pRNG prng;
 
     this->genes = pai.genes;
@@ -65,8 +66,8 @@ Individuo() {
     this->empates = 0;
     this->pontuacao = 0;
     
-    this->dnaX = new int[genes];
-    this->dnaY = new int[genes];
+    this->dnaX = new int8_t[genes];
+    this->dnaY = new int8_t[genes];
 
     for (int i = 0; i < genes; i++) {
       if (zeroOuUm() == 0) {
@@ -85,7 +86,7 @@ Individuo() {
     }
   }
 
-  int randomGene()
+  int8_t randomGene()
   {
     // Return the generated random integer
     return randomA(9);
@@ -124,24 +125,24 @@ Individuo() {
     pontuacao += 1;
   }
 
-  int randomA(int max){
+  int8_t randomA(int max){
     int randomByte = prng.getRndInt();
 
     int dif = max;
 
-    int rng = (randomByte % max);
+    int8_t rng = (randomByte % max);
 
     return rng;
   }
 
-  int randomA(int min, int max){
+  int8_t randomA(int min, int max){
     int randomByte = prng.getRndInt();
 
     int div = min - 0;
     int dif = max - div;
 
-    int rng = (randomByte % (dif + 1)) + div;
+    int8_t rng = (randomByte % (dif + 1)) + div;
 
     return rng;
   }
-}
+};

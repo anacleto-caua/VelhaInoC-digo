@@ -1,5 +1,5 @@
 #pragma once
-#include "Individuo.h"
+#include "IndividuoStruct.cpp"
 #include "RandomAnacleto.h"
 
 class Tabuleiro

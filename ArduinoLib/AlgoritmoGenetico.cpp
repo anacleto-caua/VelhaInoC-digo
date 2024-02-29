@@ -34,8 +34,6 @@ void AlgoritmoGenetico::competir()
 	}
 }
 
-void AlgoritmoGenetico::AddIndSelecionado()
-
 void AlgoritmoGenetico::competir(int i, int j)
 {
   tabuleiro.competir(individuos[i], individuos[j]);

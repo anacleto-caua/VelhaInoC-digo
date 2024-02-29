@@ -1,20 +1,20 @@
 #include <SoftwareSerial.h>
 #include "AlgoritmoGenetico.h"
 
-int genes = 10;
-int numIndividuos = 2;
+int8_t genes = 2;
+int8_t numIndividuos = 2;
 float removerPercent = 50;
 float mutacaoPercent = 20;
 
 AlgoritmoGenetico ag = AlgoritmoGenetico(genes, numIndividuos, removerPercent, mutacaoPercent);
 
-int pinG[3][3] = {
+int8_t pinG[3][3] = {
   {13, 12, 11},
   {10, 9, 8},
   {7, 6, 5}
 };
 
-int pinR[3][3] = {
+int8_t pinR[3][3] = {
   {14, 15, 16},
   {17, 18, 19},
   {2, 3, 4}
@@ -42,7 +42,7 @@ void setup()
 
   // Cria a primeira geração de indivíduos e define a pontuação máxima possível
   // <<DESFUNCIONAL POR FALTA DE MEMÓRIA PARA EXECUÇÃO>>
-  // ag.iniciarSelecao();
+  ag.iniciarSelecao();
 
 
   bool pinState = true;
@@ -59,10 +59,17 @@ void setup()
     delay(1000);
   
   }
+
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  Serial.println("Fim!!!");
+
 }
 
 void loop()
 {
+  Serial.println("inicio loop.");
 
   int (*movimentos)[2];
   int (*linhaVencedora)[2];
@@ -70,11 +77,12 @@ void loop()
   bool piscaVencedorState;
   int delayPiscaMs = 2000; // 2 secs
 
+  Serial.println("Inicio do looping de seleção.");
   // Looping de seleção <<DESFUNCIONAL POR FALTA DE MEMÓRIA PARA EXECUÇÃO>>
-  /*
   while (ag.maiorPontuacaoRound <= ag.pontuacaoMaxima * 0.7) {
 
     ag.selecao();
+    Serial.println("Uma selcao rodada.");
 
     // Mostra 3 individuos enfrentando o campeão atual
     for(int i = 1; i <= 3; i++){
@@ -154,9 +162,6 @@ void loop()
 
     }
   }
-  */
-
-  int sequenciaMaster[9][2] = {{0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}, {2,2}};
 
 
 }
