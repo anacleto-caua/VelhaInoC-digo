@@ -1,6 +1,4 @@
 #include "AlgoritmoGenetico.h"
-#include <SoftwareSerial.h>
-
 
 AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float removerPercent, float mutacaoPercent)
 {
@@ -12,9 +10,9 @@ AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float remover
 	this->removerPercent = removerPercent;
 	this->mutacaoPercent = mutacaoPercent;
 
-  this->tabuleiro = Tabuleiro();
+	this->tabuleiro = Tabuleiro(genes);
 
-	Individuo* individuos = new Individuo[numIndividuos];
+	individuos = new Individuo[numIndividuos];
 
   pRNG prng;
 }
@@ -31,14 +29,18 @@ void AlgoritmoGenetico::competir()
 {
 	for (int i = 0; i < numIndividuos; i++) {
 		for (int j = 0; j < numIndividuos; j++) {
-			tabuleiro.competir(individuos[i], individuos[j]);
+			if (i != j) {
+				tabuleiro.competir(individuos[i], individuos[j]);
+
+			}
 		}
 	}
+
 }
 
 void AlgoritmoGenetico::competir(int i, int j)
 {
-  tabuleiro.competir(individuos[i], individuos[j]);
+	// tabuleiro.competir(individuos[i], individuos[j]);
 }
 
 bool AlgoritmoGenetico::compareIndividuos(const Individuo& a, const Individuo& b)
@@ -57,7 +59,7 @@ void AlgoritmoGenetico::ordenarPopulacao()
 	for (int i = 0; i < this->numIndividuos; i++) {
 		int menor = i;
 		for (int j = i + 1; j < this->numIndividuos; j++) {
-			if (individuos[j].pontuacao < individuos[menor].pontuacao) {
+			if (individuos[j].pontuacao > individuos[menor].pontuacao) {
 				menor = j;
 			}
 		}
@@ -89,34 +91,37 @@ void AlgoritmoGenetico::limparPontuacaoPopulacao()
 void AlgoritmoGenetico::cruzarPopulacao()
 {
 	int remocao = numIndividuos * removerPercent / 100.0;
-	
+
 	/**
-    Individuo ind;
-    while (individuos.size() != numIndividuos) {
-      for (int i = 0; i < numIndividuos - remocao && individuos.size() != numIndividuos; i += 2) {
-        ind = Individuo(individuos[i], individuos[i + 1]);
-        
-        random_device rd;
-        mt19937 generator(rd()); //use the Mersenne Twister algorithm to generate numbers
+	Individuo ind;
+	while (individuos.size() != numIndividuos) {
+	  for (int i = 0; i < numIndividuos - remocao && individuos.size() != numIndividuos; i += 2) {
+		ind = Individuo(individuos[i], individuos[i + 1]);
 
-        uniform_int_distribution<int> generate(1, 100);
-        if (generate(generator) < mutacaoPercent) {
-          ind.mutacao();
-        }
+		random_device rd;
+		mt19937 generator(rd()); //use the Mersenne Twister algorithm to generate numbers
 
-        if (individuos.size() != numIndividuos) {
-          individuos.push_back(ind);
-        }
-      }
-    }
+		uniform_int_distribution<int> generate(1, 100);
+		if (generate(generator) < mutacaoPercent) {
+		  ind.mutacao();
+		}
+
+		if (individuos.size() != numIndividuos) {
+		  individuos.push_back(ind);
+		}
+	  }
+	}
 	*/
 
 	int id_pai = 0;
 	int id_mae = 1;
 
 	for (int i = numIndividuos - 1 - remocao; i < numIndividuos - 1; i++) {
-		individuos[i] = Individuo::Individuo(individuos[id_pai], individuos[id_mae]);
-	
+
+		Individuo ind = Individuo::Individuo(individuos[id_pai], individuos[id_mae]);
+
+		individuos[i] = ind;
+
 		if (randomA(100) + 1 < mutacaoPercent) {
 			individuos[i].mutacao();
 		}
@@ -133,72 +138,73 @@ void AlgoritmoGenetico::cruzarPopulacao()
 }
 
 void AlgoritmoGenetico::iniciarSelecao()
-{	
-  this->pontuacaoMaxima = numIndividuos * numIndividuos * 3;
+{
+  Serial.println("dog");
+	this->pontuacaoMaxima = ((numIndividuos-1) * 2) * 3;
 
 	gerarPopulacaoInicial();
 }
 
 void AlgoritmoGenetico::selecao()
-{	
-  competir();
+{
+	competir();
 
-  ordenarPopulacao();
+	ordenarPopulacao();
 
-  this->maiorPontuacaoRound = individuos[0].pontuacao;
+	this->maiorPontuacaoRound = individuos[0].pontuacao;
 
-  limparPontuacaoPopulacao();
+	limparPontuacaoPopulacao();
 
-  eliminarPopulacao();
+	eliminarPopulacao();
 
-  cruzarPopulacao();
+	cruzarPopulacao();
 
-  rounds++;
+	rounds++;
 }
 
 void AlgoritmoGenetico::apresentacao()
 {
-  /*
-	cout << "Tamanho: " << numIndividuos << endl;
+	/*
+	  cout << "Tamanho: " << numIndividuos << endl;
 
-	cout << "Round: " << rounds << endl;
-	cout << "Melhor individuo" << endl;
-	cout << "Pontuacao: " << individuos[0].pontuacao << endl;
-	cout << "Jogadas: " << individuos[0].vitorias + individuos[0].empates + individuos[0].derrotas << endl;
-	cout << "Pior individuo" << endl;
-	cout << "Pontuacao: " << individuos[numIndividuos-1].pontuacao << endl;
-  */
+	  cout << "Round: " << rounds << endl;
+	  cout << "Melhor individuo" << endl;
+	  cout << "Pontuacao: " << individuos[0].pontuacao << endl;
+	  cout << "Jogadas: " << individuos[0].vitorias + individuos[0].empates + individuos[0].derrotas << endl;
+	  cout << "Pior individuo" << endl;
+	  cout << "Pontuacao: " << individuos[numIndividuos-1].pontuacao << endl;
+	*/
 }
 
-int (*AlgoritmoGenetico::getMovimentos())[2] {
-    return this->tabuleiro.movimentos;
+int(*AlgoritmoGenetico::getMovimentos())[2] {
+	return this->tabuleiro.movimentos;
 }
 
-int (*AlgoritmoGenetico::getLinhaVencedora())[2]{
-  return this->tabuleiro.linhaVencedora;
+int(*AlgoritmoGenetico::getLinhaVencedora())[2] {
+	return this->tabuleiro.linhaVencedora;
 }
 
-int AlgoritmoGenetico::getVencedor(){
-  return this->tabuleiro.getVencedor();
+int AlgoritmoGenetico::getVencedor() {
+	return this->tabuleiro.getVencedor();
 }
 
-int8_t AlgoritmoGenetico::randomA(int max){
+int AlgoritmoGenetico::randomA(int max){
     int randomByte = prng.getRndInt();
 
     int dif = max;
 
-    int8_t rng = (randomByte % max);
+    int8_t rng = ((unsigned int)randomByte % max);
 
     return rng;
   }
 
-  int8_t AlgoritmoGenetico::randomA(int min, int max){
+  int AlgoritmoGenetico::randomA(int min, int max){
     int randomByte = prng.getRndInt();
 
     int div = min - 0;
     int dif = max - div;
 
-    int8_t rng = (randomByte % (dif + 1)) + div;
+    int8_t rng = ((unsigned int)randomByte % (dif + 1)) + div;
 
     return rng;
   }

@@ -1,8 +1,8 @@
 #include <SoftwareSerial.h>
 #include "AlgoritmoGenetico.h"
 
-int8_t genes = 10;
-int8_t numIndividuos = 5;
+int8_t genes = 20;
+int8_t numIndividuos = 10;
 float removerPercent = 50;
 float mutacaoPercent = 20;
 
@@ -39,11 +39,9 @@ void setup()
     }
   }
 
-
   // Cria a primeira geração de indivíduos e define a pontuação máxima possível
   // <<DESFUNCIONAL POR FALTA DE MEMÓRIA PARA EXECUÇÃO>>
   ag.iniciarSelecao();
-
 
   bool pinState = true;
   //Pisca para iniciar o looping de seleção
@@ -57,8 +55,6 @@ void setup()
     
     pinState = !pinState;
     delay(300);
-
-  
   }
 
   Serial.println();

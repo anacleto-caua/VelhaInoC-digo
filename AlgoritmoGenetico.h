@@ -13,16 +13,16 @@ public:
 	float removerPercent;
 	float mutacaoPercent;
 
-  int maiorPontuacaoRound = 0;
-  int pontuacaoMaxima;
+	int maiorPontuacaoRound = 0;
+	int pontuacaoMaxima;
 
-  Tabuleiro tabuleiro;
+	Tabuleiro tabuleiro;
 
 	Individuo* individuos;
 
   pRNG prng;
 
-	AlgoritmoGenetico(int genes, int numIndividuos,  float removerPercent, float mutacaoPercent);
+	AlgoritmoGenetico(int genes, int numIndividuos, float removerPercent, float mutacaoPercent);
 
 	void gerarPopulacaoInicial();
 
@@ -33,27 +33,27 @@ public:
 	void ordenarPopulacao();
 
 	bool compareIndividuos(const Individuo& a, const Individuo& b);
-	
+
 	void eliminarPopulacao();
 
 	void limparPontuacaoPopulacao();
 
 	void cruzarPopulacao();
 
-  void iniciarSelecao();
-	
-  void selecao();
+	void iniciarSelecao();
+
+	void selecao();
 
 	void apresentacao();
 
-  int (*getMovimentos())[2];
+	int(*getMovimentos())[2];
 
-  int (*getLinhaVencedora())[2];
+	int(*getLinhaVencedora())[2];
 
-  int getVencedor();
+	int getVencedor();
 
-  int8_t randomA(int max);
+	int randomA(int max);
 
-  int8_t randomA(int min, int max);
+	int randomA(int min, int max);
 };
 
