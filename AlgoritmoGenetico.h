@@ -24,6 +24,8 @@ public:
 
 	AlgoritmoGenetico(int genes, int numIndividuos, float removerPercent, float mutacaoPercent);
 
+  void resetarAg();
+
 	void gerarPopulacaoInicial();
 
 	void competir();

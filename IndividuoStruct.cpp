@@ -51,7 +51,7 @@ struct Individuo {
         }
     }
 
-    Individuo(Individuo pai, Individuo mae) {
+    cruzar(Individuo pai, Individuo mae) {
 
         this->genes = pai.genes;
 
@@ -59,9 +59,6 @@ struct Individuo {
         this->derrotas = 0;
         this->empates = 0;
         this->pontuacao = 0;
-
-        this->dnaX = new int8_t[genes];
-        this->dnaY = new int8_t[genes];
 
         for (int i = 0; i < genes; i++) {
             if (zeroOuUm() == 0) {

@@ -17,11 +17,16 @@ AlgoritmoGenetico::AlgoritmoGenetico(int genes, int numIndividuos, float remover
   pRNG prng;
 }
 
+void AlgoritmoGenetico::resetarAg(){
+  rounds = 0;
+  maiorPontuacaoRound = 0;
+  gerarPopulacaoInicial();
+}
+
 void AlgoritmoGenetico::gerarPopulacaoInicial()
 {
 	for (int i = 0; i < numIndividuos; i++) {
-		Individuo ind = Individuo(genes);
-		individuos[i] = ind;
+		individuos[i] = Individuo(genes);
 	}
 }
 
@@ -40,7 +45,7 @@ void AlgoritmoGenetico::competir()
 
 void AlgoritmoGenetico::competir(int i, int j)
 {
-	// tabuleiro.competir(individuos[i], individuos[j]);
+	tabuleiro.competir(individuos[i], individuos[j]);
 }
 
 bool AlgoritmoGenetico::compareIndividuos(const Individuo& a, const Individuo& b)
@@ -57,17 +62,17 @@ void AlgoritmoGenetico::ordenarPopulacao()
 	*/
 
 	for (int i = 0; i < this->numIndividuos; i++) {
-		int menor = i;
+		int maior = i;
 		for (int j = i + 1; j < this->numIndividuos; j++) {
-			if (individuos[j].pontuacao > individuos[menor].pontuacao) {
-				menor = j;
+			if (individuos[j].pontuacao > individuos[maior].pontuacao) {
+				maior = j;
 			}
 		}
 
-		if (menor != i) {
+		if (maior != i) {
 			Individuo aux = individuos[i];
-			individuos[i] = individuos[menor];
-			individuos[menor] = aux;
+			individuos[i] = individuos[maior];
+			individuos[maior] = aux;
 		}
 	}
 }
@@ -118,9 +123,7 @@ void AlgoritmoGenetico::cruzarPopulacao()
 
 	for (int i = numIndividuos - 1 - remocao; i < numIndividuos - 1; i++) {
 
-		Individuo ind = Individuo::Individuo(individuos[id_pai], individuos[id_mae]);
-
-		individuos[i] = ind;
+		individuos[i].cruzar(individuos[id_pai], individuos[id_mae]);
 
 		if (randomA(100) + 1 < mutacaoPercent) {
 			individuos[i].mutacao();
@@ -139,7 +142,6 @@ void AlgoritmoGenetico::cruzarPopulacao()
 
 void AlgoritmoGenetico::iniciarSelecao()
 {
-  Serial.println("dog");
 	this->pontuacaoMaxima = ((numIndividuos-1) * 2) * 3;
 
 	gerarPopulacaoInicial();

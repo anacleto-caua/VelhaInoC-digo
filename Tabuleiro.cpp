@@ -38,15 +38,20 @@ void Tabuleiro::competir(Individuo& a, Individuo& b) {
 
   while (genesA < a.genes && genesB < b.genes) {
 
-  while (!isJogadaValida(jogadaA) && genesA < a.genes) {
-    jogadaA = a.dnaX[genesA];
-    genesA++;
-  }
+    while (!isJogadaValida(jogadaA) && genesA < a.genes) {
+      jogadaA = a.dnaX[genesA];
+      genesA++;
+    }
 
     if (terminou(genesA, genesB)) {
       break;
     }
-    move = codigoParaXY(jogadaA);
+
+    move[0] = codigoParaXY(jogadaA, 0);
+    move[1] = codigoParaXY(jogadaA, 1);
+    // Serial.print(move[0]);
+    // Serial.println(move[1]);
+
     tabuleiro[move[0]][move[1]] = 1;
     addMovimento(move[0], move[1]);
 
@@ -59,62 +64,77 @@ void Tabuleiro::competir(Individuo& a, Individuo& b) {
       break;
     }
 
-    move = codigoParaXY(jogadaB);
+    move[0] = codigoParaXY(jogadaB, 0);
+    move[1] = codigoParaXY(jogadaB, 1);
+    // Serial.print(move[0]);
+    // Serial.println(move[1]);
+
     tabuleiro[move[0]][move[1]] = 2;
     addMovimento(move[0], move[1]);
+
+    // for (int i = 0; i < 3; i++) {
+    //   for (int j = 0; j < 3; j++) {
+    //     Serial.print(tabuleiro[i][j]);
+    //     Serial.print(" ");
+    //   }
+    //   Serial.println();
+    // }
   }
   premiar(a, b);
+  
 }
 
-int* Tabuleiro::codigoParaXY(int jogada) {
+int Tabuleiro::codigoParaXY(int jogada, int op) {
   int x = 0;
   int y = 0;
 
-switch (jogada) {
-	case 0:
-		x = 0;
-		y = 0;
-		break;
-	case 1:
-		x = 0;
-		y = 1;
-		break;
-	case 2:
-		x = 0;
-		y = 2;
-		break;
-	case 3:
-		x = 1;
-		y = 0;
-		break;
-	case 4:
-		x = 1;
-		y = 1;
-		break;
-	case 5:
-		x = 1;
-		y = 2;
-		break;
-	case 6:
-		x = 2;
-		y = 0;
-		break;
-	case 7:
-		x = 2;
-		y = 1;
-		break;
-	case 8:
-		x = 2;
-		y = 2;
-		break;
-	default:
-		// Faz o L!!!!!
-		break;
-	}
+  switch (jogada) {
+    case 0:
+      x = 0;
+      y = 0;
+      break;
+    case 1:
+      x = 0;
+      y = 1;
+      break;
+    case 2:
+      x = 0;
+      y = 2;
+      break;
+    case 3:
+      x = 1;
+      y = 0;
+      break;
+    case 4:
+      x = 1;
+      y = 1;
+      break;
+    case 5:
+      x = 1;
+      y = 2;
+      break;
+    case 6:
+      x = 2;
+      y = 0;
+      break;
+    case 7:
+      x = 2;
+      y = 1;
+      break;
+    case 8:
+      x = 2;
+      y = 2;
+      break;
+    default:
+      // Faz o L!!!!!
+      break;
+  }
 
-	int arr[2] = { x, y };
-
-	return arr;
+  if(op == 0){
+    return x;
+  }else{
+    return y;
+  }
 }
 
 bool Tabuleiro::isJogadaValida(int jogada) {
@@ -122,46 +142,46 @@ bool Tabuleiro::isJogadaValida(int jogada) {
 	int y = 0;
 
 	switch (jogada) {
-	case 0:
-		x = 0;
-		y = 0;
-		break;
-	case 1:
-		x = 0;
-		y = 1;
-		break;
-	case 2:
-		x = 0;
-		y = 2;
-		break;
-	case 3:
-		x = 1;
-		y = 0;
-		break;
-	case 4:
-		x = 1;
-		y = 1;
-		break;
-	case 5:
-		x = 1;
-		y = 2;
-		break;
-	case 6:
-		x = 2;
-		y = 0;
-		break;
-	case 7:
-		x = 2;
-		y = 1;
-		break;
-	case 8:
-		x = 2;
-		y = 2;
-		break;
-	default:
-		// Faz o L!!!!!
-		return false;
-		break;
+    case 0:
+      x = 0;
+      y = 0;
+      break;
+    case 1:
+      x = 0;
+      y = 1;
+      break;
+    case 2:
+      x = 0;
+      y = 2;
+      break;
+    case 3:
+      x = 1;
+      y = 0;
+      break;
+    case 4:
+      x = 1;
+      y = 1;
+      break;
+    case 5:
+      x = 1;
+      y = 2;
+      break;
+    case 6:
+      x = 2;
+      y = 0;
+      break;
+    case 7:
+      x = 2;
+      y = 1;
+      break;
+    case 8:
+      x = 2;
+      y = 2;
+      break;
+    default:
+      // Faz o L!!!!!
+      return false;
+      break;
 	}
 
 	if (tabuleiro[x][y] == 0) {

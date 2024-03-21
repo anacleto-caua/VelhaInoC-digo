@@ -27,7 +27,7 @@ public:
 
 	void competir(Individuo& a, Individuo& b);
 
-	int* codigoParaXY(int jogada);
+	int codigoParaXY(int jogada, int op);
 
 	bool isJogadaValida(int jogada);
 
